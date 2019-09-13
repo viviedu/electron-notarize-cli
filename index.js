@@ -34,11 +34,9 @@ const args = require("yargs")
 })
 .argv
 
-args.appPath = args._[0]
-
 var p = notarize(args)
-.then(result => {
-	console.log("Notarization succeeded", result)
+.then(() => {
+	console.log("Notarization succeeded")
 }, error => {
 	console.log("Notarization failed:", error)
 	process.exit(1)
