@@ -24,7 +24,7 @@ const args = require("yargs")
 .option("apple-id-password", {
 	alias: [ "password", "p" ],
 	demandOption: true,
-	describe: "The password for your aple developer account",
+	describe: "The password for your apple developer account",
 	type: "string",
 })
 .option("asc-provider", {
@@ -34,10 +34,10 @@ const args = require("yargs")
 })
 .argv
 
-var p = notarize(args)
+notarize(args)
 .then(() => {
 	console.log("Notarization succeeded")
 }, error => {
-	console.log("Notarization failed:", error)
+	console.error("Notarization failed:", error.message)
 	process.exit(1)
 })
