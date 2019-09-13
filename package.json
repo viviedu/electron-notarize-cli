@@ -1,6 +1,6 @@
 {
 	"name": "electron-notarize-cli",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Notarize your Electron app from the command line",
 	"author": "Fozi",
 	"repository": {
