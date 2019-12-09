@@ -17,13 +17,12 @@ const args = require("yargs")
 })
 .option("apple-id", {
 	alias: [ "username", "u" ],
-	demandOption: true,
 	describe: "The username of your apple developer account",
+	implies: "apple-id-password",
 	type: "string",
 })
 .option("apple-id-password", {
 	alias: [ "password", "p" ],
-	demandOption: true,
 	describe: "The password for your apple developer account",
 	type: "string",
 })
@@ -32,7 +31,24 @@ const args = require("yargs")
 	describe: "Your Team ID in App Store Connect",
 	type: "string",
 })
+.option("apple-api-key", {
+	alias: [ "api-key" ],
+	describe: "Apple API key. Required for JWT authentication",
+	implies: "apple-api-issuer",
+	type: "string",
+})
+.option("apple-api-issuer", {
+	alias: [ "api-issuer" ],
+	describe: "Issuer ID. Required if appleApiKey is specified",
+	type: "string",
+})
 .argv
+
+if(!args.appleId && !args.appleApiKey) {
+	require("yargs").showHelp()
+	console.error("\nMissing required argument: either apple-id or apple-api-key")
+	process.exit(1)
+}
 
 notarize(args)
 .then(() => {
