@@ -1,59 +1,72 @@
 #!/usr/bin/env node
-const { notarize } = require("electron-notarize")
-const args = require("yargs")
-.command('$0', "Notarize an electron shell app", (yargs) => {
-	yargs.positional("file", {
-		describe: "Path to the app",
-		type: "string",
-	})
+
+const { notarize } = require('electron-notarize')
+
+const args = require('yargs')
+.command('$0', 'Notarize an electron shell app', (yargs) => {
+  yargs.positional('file', {
+    describe: 'Path to the app',
+    type: 'string',
+  })
 }, (argv) => {
-	argv.appPath = argv._[0]
+  argv.appPath = argv._[0]
 })
-.option("app-bundle-id", {
-	alias: [ "id", "bundle-id", "b" ],
-	demandOption: true,
-	describe: "Primary app bundle ID",
-	type: "string",
+.option('tool', {
+  describe: 'The notarization tool to use, default is legacy. Can be legacy or notarytool. notarytool is substantially (10x) faster.',
+  type: 'string'
 })
-.option("apple-id", {
-	alias: [ "username", "u" ],
-	describe: "The username of your apple developer account",
-	implies: "apple-id-password",
-	type: "string",
+.option('app-bundle-id', { // for legacy only
+  alias: [ 'id', 'bundle-id', 'b' ],
+  describe: 'The app bundle identifier your Electron app is using. E.g. com.github.electron',
+  type: 'string'
 })
-.option("apple-id-password", {
-	alias: [ "password", "p" ],
-	describe: "The password for your apple developer account",
-	type: "string",
+.option('asc-provider', { // for legacy only
+  describe: 'Your Team Short Name',
+  type: 'string'
 })
-.option("asc-provider", {
-	alias: [ "team-id", "t" ],
-	describe: "Your Team ID in App Store Connect",
-	type: "string",
+.option('apple-id', {
+  alias: [ 'username', 'u' ],
+  describe: 'The username of your apple developer account',
+  type: 'string'
 })
-.option("apple-api-key", {
-	alias: [ "api-key" ],
-	describe: "Apple API key. Required for JWT authentication",
-	implies: "apple-api-issuer",
-	type: "string",
+.option('apple-id-password', {
+  alias: [ 'password', 'p' ],
+  describe: 'The app-specific password (not your Apple ID password).',
+  type: 'string'
 })
-.option("apple-api-issuer", {
-	alias: [ "api-issuer" ],
-	describe: "Issuer ID. Required if appleApiKey is specified",
-	type: "string",
+.option('team-id', { // for notarytool username/password auth only
+  describe: 'The team ID you want to notarize under.',
+  type: 'string'
+})
+.option('apple-api-key', {
+  alias: [ 'api-key' ],
+  describe: 'Required for JWT authentication.',
+  type: 'string'
+})
+.option('apple-api-key-id', { // for notarytool JWT auth only
+  alias: [ 'api-key-id' ],
+  describe: 'Required for JWT authentication.',
+  type: 'string'
+})
+.option('apple-api-issuer', {
+  alias: [ 'api-issuer' ],
+  describe: 'Issuer ID. Required if appleApiKey is specified',
+  type: 'string'
+})
+.option('keychain', { // for notarytool keychain auth only
+  describe: 'The name of the keychain or path to the keychain you stored notarization credentials in.',
+  type: 'string'
+})
+.option('keychain-profile', { // for notarytool keychain auth only
+  describe: 'The name of the profile you provided when storing notarization credentials.',
+  type: 'string'
 })
 .argv
 
-if(!args.appleId && !args.appleApiKey) {
-	require("yargs").showHelp()
-	console.error("\nMissing required argument: either apple-id or apple-api-key")
-	process.exit(1)
-}
-
 notarize(args)
 .then(() => {
-	console.log("Notarization succeeded")
+  console.log('Notarization succeeded')
 }, error => {
-	console.error("Notarization failed:", error.message)
-	process.exit(1)
+  console.error('Notarization failed:', error.message)
+  process.exit(1)
 })

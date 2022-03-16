@@ -1,23 +1,23 @@
 {
-	"name": "electron-notarize-cli",
-	"version": "0.2.1",
-	"description": "Notarize your Electron app from the command line",
-	"author": "Fozi",
-	"repository": {
-		"type": "git",
-		"url": "https://gitlab.com/fozi/electron-notarize-cli"
-	},
-	"dependencies": {
-		"electron-notarize": "0.2.1",
-		"yargs": "^13.3.0"
-	},
-	"bin": {
-		"electron-notarize": "index.js"
-	},
-	"license": "MIT",
-	"keywords": [
-		"electron",
-		"notarize",
-		"cli"
-	]
+  "name": "electron-notarize-cli",
+  "version": "1.1.1",
+  "description": "Notarize your Electron app from the command line",
+  "author": "Fozi",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/fozi/electron-notarize-cli"
+  },
+  "dependencies": {
+    "electron-notarize": "1.1.1",
+    "yargs": "^13.3.0"
+  },
+  "bin": {
+    "electron-notarize": "index.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "notarize",
+    "cli"
+  ]
 }
